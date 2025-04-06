@@ -1,5 +1,6 @@
+from datetime import datetime
 def mask_account_card(info: str ) -> str:
-    """ФУнкция обработки """
+    """Функция обработки данных карт и счетов"""
 
     parts = info.split(' ')
     if len(parts) >3:
@@ -22,6 +23,10 @@ def mask_account_card(info: str ) -> str:
 
 
 
+def get_date(date:str) -> str:
+    """фунция конвертауии даты"""
+    date_obj = datetime.fromisoformat(date)
+    return date_obj.strftime("%d.%m.%y")
 
 
 
