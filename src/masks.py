@@ -5,7 +5,7 @@ def get_mask_card_number(card_number: str) -> str:
         )
         return masked_number
     else:
-        return "Проверьте правильность нмоера карты"
+        return "Проверьте правильность номера карты"
 
 
 def get_mask_account(account_number: str) -> str:
@@ -13,4 +13,4 @@ def get_mask_account(account_number: str) -> str:
         masked_account = "**" + account_number[-4:]
         return masked_account
     else:
-        return "Проверьте правильность нмоера счета"
+        return "Проверьте правильность номера счета"
