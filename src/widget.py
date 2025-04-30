@@ -1,28 +1,31 @@
 from datetime import datetime
 
+from src.masks import get_mask_account, get_mask_card_number
+
 
 def mask_account_card(info: str) -> str:
     """Функция обработки данных карт и счетов"""
 
     parts = info.split(" ")
-    if len(parts) > 3:
+
+    if len(parts) < 2:
         return "Проверьте правильность ввода"
 
-    if len(parts) == 3:
-        type_one, type_two, number = parts
-        masked_number = (
-            f"{type_one} {type_two} {number[:4]} {number[4:6]}** **** {number[-4:]}"
-        )
-    elif len(parts) == 2:
-        type_, number = parts
-        if type_.lower() == "счет":
-            masked_number = f"Счет **{number[-4:]}"
-        else:
-            masked_number = f"{type_} {number[:4]} {number[4:6]}** **** {number[-4:]}"
-    return masked_number
+    if parts[0].lower() == "счет":
+        number = parts[1]
+        masked = get_mask_account(number)
+        return f"Счет {masked}" if "Проверьте" not in masked else masked
+    else:
+        card_type = " ".join(parts[:-1])
+        number = parts[-1]
+        masked = get_mask_card_number(number)
+        return f"{card_type} {masked}" if "Проверьте" not in masked else masked
 
 
-def get_date(date: str) -> str:
-    """фунция конвертауии даты"""
-    date_obj = datetime.fromisoformat(date)
-    return date_obj.strftime("%d.%m.%y")
+def get_date(date_str: str) -> str:
+
+    try:
+        dt = datetime.fromisoformat(date_str)
+        return dt.strftime("%d.%m.%Y")
+    except ValueError:
+        return "Неверный формат даты"
